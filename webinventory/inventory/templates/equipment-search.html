@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipment Search</title>
+
+ 
+
+    <style>  
+   body {    
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box; 
+}
+
+header {
+    background-color: peru;
+    color:black;
+    text-align: center;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    font-size: 16px;
+    border-bottom: 1px solid #000;
+
+}
+
+
+
+
+.navbar {
+    background-color: lightgrey;
+    color: gray;
+    padding: 20px;
+    width: 100px;
+    position: fixed;
+    top: calc(90px + 10px); 
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    font-size: 12px;
+    border-right: 1px solid #000;
+}
+
+.content {
+    margin-left: 200px;
+    margin-top: 150px;
+    padding: 50px; 
+
+}
+
+
+.navbar ul {
+    padding: 0; 
+    list-style-type: none; 
+}
+
+.navbar li {
+    margin-bottom: 50px; 
+}
+
+
+    </style>
+
+ 
+</head>
+<body>
+
+        
+     
+<header>
+    <h1>Equipment Search</h1>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="#">Homepage</a></li>
+            <li><a href="#">Equipment Booking</a></li>
+            <li><a href="#">Manage Users</a></li>
+            <li><a href="#">Reports</a></li>
+        </ul>
+    </nav>
+    
+
+</header>
+
+
+
+<div class="content">
+    
+    <form action="{% url 'equipment-search' %}" method="get">
+        <input type="text" name="q" placeholder="Search" value="{{ search_bar }}">
+        <select name="sort">
+            <option value="">Sort by</option>
+            <option value="warranty" {% if sort_by == 'warranty' %}selected{% endif %}>Warranty</option>
+            <option value="borrowable" {% if sort_by == 'borrowable' %}selected{% endif %}>Borrowable</option>
+            <option value="on_site" {% if sort_by == 'on_site' %}selected{% endif %}>On Site</option>
+        </select>
+        <select name="filter_by">
+            <option value="">Filter by</option>
+            <option value="quantity" {% if filter_by == 'quantity' %}selected{% endif %}>Quantity</option>
+            <option value="equip_name" {% if filter_by == 'equip_name' %}selected{% endif %}>Name</option>
+            <option value="equip_type" {% if filter_by == 'equip_type' %}selected{% endif %}>Type</option>
+        </select>
+        <input type="submit" value="Search">
+    </form>
+
+    
+
+    
+    {% if results %}
+    <h2>Search Results:</h2>
+    <ul>
+        {% for equipment in results %}
+            <li>
+                {% if filter_by == 'quantity' %}
+                    Name: {{ equipment.equip_name }} - Quantity: {{ equipment.quantity }}
+                {% elif filter_by == 'equip_name' %}
+                    Name: {{ equipment.equip_name }}
+                {% elif filter_by == 'equip_type' %}
+                    Type: {{ equipment.equip_type }}
+                {% else %}
+                    Name: {{ equipment.equip_name }}
+                {% endif %}
+                - ID: {{ equipment.equipment_id }}
+                {% if sort_by == 'warranty' %}
+                    - Warranty: {{ equipment.warranty }}
+                {% elif sort_by == 'borrowable' %}
+                    - Borrowable: {% if equipment.borrowable %}Yes{% else %}No{% endif %}
+                {% elif sort_by == 'on_site' %}
+                    - On Site: {% if equipment.on_site %}Yes{% else %}No{% endif %}
+                {% endif %}
+                 - Date Added: {{ equipment.date_added }}
+            </li>
+        {% empty %}
+            <li>No equipment found.</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+
+
+</body>
+</html>
+
+

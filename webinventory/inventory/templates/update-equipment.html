@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Equipment</title>
+
+    
+
+<style>
+  
+  body {
+           
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            height: 100vh; 
+        }
+
+        header {
+          
+            color: black;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            font-size: 17px;
+          
+           
+        }
+
+        .navbar {
+            background-color: lightgrey;
+            color: blue;
+            padding: 20px;
+            width: 100px;
+            height: 100vh; 
+            position: fixed;
+            top: 0; 
+            left: 0;
+            overflow-y: auto;
+            font-size: 14px;
+            border-right: 1px solid #000;
+        }
+
+        .container {
+            padding: 60px;
+            background-color: #f9f9f912; 
+            border: 1px solid #ccc; 
+            margin-top: 60px; 
+        }
+
+        .footer {
+            background-color: lightgray;
+            color: black;
+            text-align:center;
+            padding: 5px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            font-size: 8px;
+            border-top: 1px solid #000;
+        }
+
+       
+        .navbar a {
+            display: block;
+            margin-bottom: 40px;
+        }
+ 
+
+
+
+       
+    </style>
+</head>
+<body>
+    
+    <div class="navbar">
+        <a href="#">Homepage</a>
+        <a href="#">Equipment booking</a>
+        <a href="#">Manage Users</a>
+        <a href="#">Reports</a>
+    </div>
+
+   
+    <div class="container">
+        <h1>Update Equipment</h1>
+
+        {% if equipment_already_exists %}
+            <p>The equipment already exists.</p>
+        {% else %}
+            <form method="post">
+                {% csrf_token %}
+                <label for="equip_name">Equipment Name:</label>
+                <input type="text" id="equip_name" name="equip_name" required><br>
+
+                <label for="quantity">Quantity:</label>
+                <input type="text" id="quantity" name="quantity" required><br>
+
+                <label for="equip_type">Equipment Type:</label>
+                <input type="text" id="equip_type" name="equip_type" required><br>
+
+                <label for="on_site">On Site:</label>
+                <input type="checkbox" id="on_site" name="on_site"><br>
+
+                <label for="borrowable">Borrowable:</label>
+                <input type="checkbox" id="borrowable" name="borrowable"><br>
+
+                <label for="warranty">Warranty Date:</label>
+                <input type="date" id="warranty" name="warranty" required><br>
+
+                <button type="submit">Add new Equipment</button>
+              
+                </form>
+                
+            </form>
+            {% if past_booking_number %}
+                <p>Past Booking Number: {{ past_booking_number }}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    
+   
+       
+
+    <div class="footer">
+        <p>Contact Us: 101010101010</p>
+        <p>hello@1234.com</p>
+        <p>&copy; 2024-2999 Copyright</p>
+    </div>
+</body>
+</html>
